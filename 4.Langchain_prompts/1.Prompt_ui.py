@@ -12,4 +12,4 @@ user_input = st.text_input("Enter your Prompt here : ")  ## text_input takes inp
 
 if st.button('Summarize'):
     result = model.invoke(user_input)
-    st.write(result.content)
+    st.write(result.text())

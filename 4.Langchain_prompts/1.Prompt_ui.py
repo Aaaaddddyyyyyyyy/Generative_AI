@@ -6,7 +6,7 @@ load_dotenv()
 
 model = ChatGoogleGenerativeAI(model="gemini-3.5-flash")
 
-st.header("Research Tools")  ## header adds heading to web
+st.header("Welcome to the AdGPT")  ## header adds heading to web
 
 user_input = st.text_input("Enter your Prompt here : ")  ## text_input takes input from user
 

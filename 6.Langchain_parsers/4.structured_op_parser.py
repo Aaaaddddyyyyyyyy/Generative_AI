@@ -1,39 +1,39 @@
-from langchain_huggingface  import ChatHuggingFace,HuggingFaceEndpoint
+from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from langchain.output_parsers import StructuredOutputParser, ResponseSchema
 
 load_dotenv()
 
-#$ define the model
-
-llm=HuggingFaceEndpoint(
+# define the model
+llm = HuggingFaceEndpoint(
     repo_id="meta-llama/Llama-3.1-8B-Instruct",
     task="text-generation",
 )
 
-model = ChatHuggingFace(llm=llm)  
+model = ChatHuggingFace(llm=llm)
 
-schema=[
-    ResponseSchema(name='fact_1', description=' Fact 1 about the topic'),
-    ResponseSchema(name='fact_2', description=' Fact 2 about the topic'),
-    ResponseSchema(name='fact_3', description=' Fact 3 about the topic'),
-    
-]
+parser = JsonOutputParser()
 
-parser= StructuredOutputParser.from_response_schemas(schema)
+template = PromptTemplate(
+    template="""
+Give 3 facts about {topic}.
 
-template= PromptTemplate(
-    template='give 3 facts about {topic} \n {format_instructions}',
-    input_variables=['topic'],
-    partial_variables={'format_instructions':parser.get_format_instructions()}
+Return the output in the following JSON format:
+
+{{
+    "fact_1": "...",
+    "fact_2": "...",
+    "fact_3": "..."
+}}
+""",
+    input_variables=["topic"],
 )
 
-prompt= template.invoke({'topic':'tata sierra'})
+prompt = template.invoke({"topic": "water"})
 
-result=model.invoke(prompt)
+result = model.invoke(prompt)
 
-final_result=parser.parse(result.content)
+final_result = parser.parse(result.content)
 
 print(final_result)

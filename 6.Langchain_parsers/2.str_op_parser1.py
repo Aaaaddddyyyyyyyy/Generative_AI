@@ -1,6 +1,8 @@
 from langchain_huggingface  import ChatHuggingFace,HuggingFaceEndpoint
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
 
 load_dotenv()
 
@@ -26,13 +28,9 @@ template2= PromptTemplate(
     input_variables=['text']
 )
 
-prompt1=template1.invoke({'topic':'Black hole'})
+parser= StrOutputParser()
 
-result=model.invoke(prompt1)
+chain= template1 | model | parser | template2 | model | parser
 
-prompt2=template2.invoke({'text':result.content})
-
-result2=model.invoke(prompt2)
-
-#print(result2.content)
-print(result.content)
+result=chain.invoke({'topic':'tata motors'})
+print(result)

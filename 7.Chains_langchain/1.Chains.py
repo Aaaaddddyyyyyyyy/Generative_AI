@@ -20,3 +20,5 @@ chain= prompt| model | parser
 result=chain.invoke({'topic':'cricket'})
 
 print(result)
+
+chain.get_graph().print_ascii()

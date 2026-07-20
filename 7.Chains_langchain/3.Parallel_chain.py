@@ -10,7 +10,7 @@ from langchain_core.runnables import RunnableSequence
 
 load_dotenv()
 
-model1=ChatGoogleGenerativeAI(model='"gemini-3.5-flash"')
+model1=ChatGoogleGenerativeAI(model="gemini-3.5-flash")
 model2= ChatGroq(model="llama-3.3-70b-versatile")
 
 prompt1= PromptTemplate(
@@ -25,7 +25,7 @@ prompt2= PromptTemplate(
 )
 
 prompt3= PromptTemplate(
-    tempalte='merge the provided notes and quiz  into  a single document \n notes ->{notes} and quiz -> {quiz}',
+    template='merge the provided notes and quiz  into  a single document \n notes ->{notes} and quiz -> {quiz}',
     input_variables=['notes','quiz']
 )
 
@@ -62,3 +62,4 @@ Price increase makes the value proposition less compelling against rivals like t
 
 """    
 result= chain.invoke({'text':text})
+print(result)

@@ -63,3 +63,5 @@ Price increase makes the value proposition less compelling against rivals like t
 """    
 result= chain.invoke({'text':text})
 print(result)
+
+chain.get_graph().print_ascii()

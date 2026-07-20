@@ -3,6 +3,10 @@ from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_groq import ChatGroq
+from langchain_core.runnables import RunnableLambda
+from langchain_core.runnables import RunnableParallel
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.runnables import RunnableSequence
 
 load_dotenv()
 
@@ -25,3 +29,9 @@ prompt3= PromptTemplate(
     input_variables=['notes','quiz']
 )
 
+parser= StrOutputParser()
+
+parallel_chain= RunnableParallel({
+    'notes': prompt1 | model1 | parser,
+    'quiz': prompt2 | model2 | parser
+})

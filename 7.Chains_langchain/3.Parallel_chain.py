@@ -35,3 +35,8 @@ parallel_chain= RunnableParallel({
     'notes': prompt1 | model1 | parser,
     'quiz': prompt2 | model2 | parser
 })
+
+
+merge_chain= prompt3 | model1 | parser
+
+chain= parallel_chain | merge_chain         # merging both chains

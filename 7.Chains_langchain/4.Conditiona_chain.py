@@ -4,7 +4,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_groq import ChatGroq
 from langchain_core.runnables import RunnableLambda
-from langchain_core.runnables import RunnableParallel
+from langchain_core.runnables import RunnableParallel,RunnableBranch, RunnableLambda
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.runnables import RunnableSequence
 from langchain_core.output_parsers import PydanticOutputParser
@@ -15,7 +15,7 @@ from typing import Literal
 load_dotenv()
 
 
-model1=ChatGoogleGenerativeAI(model="gemini-3.5-flash")
+model=ChatGoogleGenerativeAI(model="gemini-3.5-flash")
 
 parser=StrOutputParser()
 
@@ -31,8 +31,26 @@ prompt1=PromptTemplate(
     partial_variables={'format_instruction':parser2.get_format_instructions()}
 )
 
-classifier_chain= prompt1 | model1 | parser2
+classifier_chain= prompt1 | model | parser2
+prompt2=PromptTemplate(
+        template= 'write an appropiate response to this positive feedback \n{feedback}',
+        input_variables=['feedback']
+)
 
-result=classifier_chain.invoke({'feedback':'this is the crazy smartphone'})
 
-print(result)
+prompt3=PromptTemplate(
+        template= 'write an appropiate response to this negative feedback \n{feedback}',
+        input_variables=['feedback']
+)
+
+
+## branching
+branch_chain= RunnableBranch(
+        (lambda x:x.sentiment=='positive', prompt2 | model | parser),
+        (lambda x:x.sentiment=='negative', prompt3 | model | parser),
+        RunnableLambda(lambda x:'could not find sentiment')
+)
+
+chain= classifier_chain | branch_chain
+
+print(chain.invoke({'feedback':'this is wonderful phone'}))

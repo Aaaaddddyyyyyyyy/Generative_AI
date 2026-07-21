@@ -7,6 +7,10 @@ from langchain_core.runnables import RunnableLambda
 from langchain_core.runnables import RunnableParallel
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.runnables import RunnableSequence
+from langchain_core.output_parsers import PydanticOutputParser
+from pydantic import BaseModel,Field
+from typing import Literal
+
 
 load_dotenv()
 
@@ -15,11 +19,18 @@ model1=ChatGoogleGenerativeAI(model="gemini-3.5-flash")
 
 parser=StrOutputParser()
 
+class Feedback(BaseModel):
+
+    sentiment : Literal['positive','negative']=Field(description='Give  the sentiment of the feedback')
+
+parser2 = PydanticOutputParser(pydantic_object=Feedback)
+
 prompt1=PromptTemplate(
-    template='classify the sentiment of following feedback text into positive or negative \n {feedback}',
-    input_variables=['feedback']
+    template='classify the sentiment of following feedback text into positive or negative \n {feedback} \n {format_instruction}',
+    input_variables=['feedback'],
+    partial_variables={'format_instruction':parser2.get_format_instructions()}
 )
 
-classifier_chain= prompt1 | model1 | parser
+classifier_chain= prompt1 | model1 | parser2
 
 print(classifier_chain.invoke({'feedback':'this is the terrible smartphone'}))

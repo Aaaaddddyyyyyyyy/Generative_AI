@@ -33,4 +33,6 @@ prompt1=PromptTemplate(
 
 classifier_chain= prompt1 | model1 | parser2
 
-print(classifier_chain.invoke({'feedback':'this is the terrible smartphone'}))
+result=classifier_chain.invoke({'feedback':'this is the crazy smartphone'})
+
+print(result)

@@ -7,7 +7,7 @@ from langchain_core.runnables import RunnableSequence,RunnableParallel,RunnableP
 load_dotenv()
 
 def word_count(text):
-    return len(text.split)
+    return len(text.split())
 passthrough= RunnablePassthrough()
 
 prompt1= PromptTemplate(

@@ -27,4 +27,5 @@ parallel_chain=RunnableParallel({
 
 result=parallel_chain.invoke({'topic':'ai'})
 
-print(result)
+print(result['tweet'])
+print(result['linkedin'])

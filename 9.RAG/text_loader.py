@@ -5,3 +5,4 @@ loader= TextLoader('requirements.txt',encoding='utf-8 ')
 docs=loader.load()       # load text file into document
 
 print(docs)
+print(docs[0])

@@ -6,9 +6,24 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+model = ChatGoogleGenerativeAI(model='gemini-3.5-flash')
+
+prompt= PromptTemplate(
+    template='write a  summary for the followiung text -\n {text}',
+    input_variables=['text']
+)
+
+parser = StrOutputParser()
+
 loader= TextLoader('9.RAG\demo.txt',encoding='utf-8')
 
 docs=loader.load()       # load text file into document
 
 #print(docs)
 print(docs[0])
+
+chain= prompt | model | parser
+
+result=chain.invoke({'text':docs[0].page_content})
+
+print(result)

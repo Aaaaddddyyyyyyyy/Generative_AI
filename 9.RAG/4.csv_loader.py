@@ -4,5 +4,5 @@ loader= CSVLoader(file_path='9.RAG\heart.csv')
 
 docs=loader.load()
 
-print(docs)
+print(docs[1])
 print(len(docs))

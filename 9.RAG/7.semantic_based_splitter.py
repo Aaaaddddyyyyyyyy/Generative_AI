@@ -1,0 +1,5 @@
+from langchain_experimental.text_splitter import SemanticChunker
+from langchain_google_genai.embeddings import ChatGoogleGenerativeAI
+from dotenv import load_dotenv
+
+load_dotenv()

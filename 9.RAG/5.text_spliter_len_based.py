@@ -1,4 +1,4 @@
-from langchain.text_splitter import CharacterTextSplitter
+from langchain_text_splitters import CharacterTextSplitter
 
 
 text="""A common mistake is treating the symptom (noise) with spray instead of fixing the worn part. If the noise has started recently, it's more likely that cleaning or replacing a worn component is the real solution.

@@ -21,5 +21,8 @@ loader=WebBaseLoader(url)
 
 docs= loader.load()
 
-print(docs)
-print(len(docs))
+chain= prompt|model|parser
+
+result=chain.invoke({'question':'what is the color options available for this product?', 'text':docs[0].page_content})
+
+print(result)

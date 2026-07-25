@@ -7,5 +7,13 @@ In Retrieval-Augmented Generation (RAG), text structure–based splitting is a s
 
 # initialize the splitter
 splitter= RecursiveCharacterTextSplitter(
-    
+    chunk_size=10,
+    chunk_overlap=0,
+
 )
+
+# perform the splitting
+chunks= splitter.split_text(text)
+
+print(len(chunks))
+print(chunks)

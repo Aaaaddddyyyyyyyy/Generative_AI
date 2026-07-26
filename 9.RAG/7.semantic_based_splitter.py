@@ -1,5 +1,4 @@
 from langchain_experimental.text_splitter import SemanticChunker
-
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
 
